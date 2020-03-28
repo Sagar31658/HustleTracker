@@ -49,8 +49,8 @@ exports.postLoginPage = (req, res) => {
             if (result) {
                 req.session.isLoggedin = true;
                 req.session.user = user;
+                res.redirect('/expense/dashboard');
                 console.log('login successful');
-                res.redirect('/');
             } else {
                 console.log(err);
                 res.redirect('/user/login');
@@ -60,4 +60,10 @@ exports.postLoginPage = (req, res) => {
         console.log(err);
         res.redirect('/user/signup');
     });
+}
+
+exports.getLogout = (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/user/login');
+    })
 }

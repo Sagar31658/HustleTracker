@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <button><a href="/user/logout">Log out</a></button>
+    </header>
+    <section>
+
+        <form action="/expense/addExpense" method="post">
+            <input type="text" name="ExpenseType" id="">
+            <input type="number" name="Amount" id="">
+            <input type="date" name="Date" value="<%= Date %>" id="">
+            <button type="submit">submit</button>
+        </form>
+        <div>
+            <% 
+            function format(date) {
+                var d = date.getDate();
+                var m = date.getMonth() + 1;
+                var y = date.getFullYear();
+                return '' + (d <= 9 ? '0' + d : d) + '-' + (m<=9 ? '0' + m : m) + '-' + y;
+            }
+            %>
+
+            <% const total = () => { %>
+            <% var sum = 0 %>
+            <% for(let i=0;i<Expenses.length;i++){ %>
+            <% sum = sum + Expenses[i].Amount %>
+            <% } %>
+            <% return sum; %>
+            <% } %>
+
+            <% const sum = total(); %>
+
+            <% for(let i=0;i<Expenses.length;i++){ %>
+            <div>
+                <%var dateString = format(Expenses[i].Date);%>
+                <h2><%= Expenses[i].ExpenseType %>:<%= Expenses[i].Amount %>&nbsp;&nbsp;<%= dateString%></h2>
+            </div>
+            <% } %>
+            <h1>Total:<%= sum %></h1>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -7,6 +7,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const credentials = require('./credentials/credentials');
 
 const UserRoute = require('./routes/UserRoute');
+const ExpenseRoute = require('./routes/ExpenseRoute');
 
 const isAuth = require('./controllers/isAuth');
 
@@ -44,10 +45,7 @@ app.use(session({
 }));
 
 app.use('/user', UserRoute);
-
-app.get('/', isAuth, (req, res) => {
-    res.send("We're all set!");
-});
+app.use('/expense', ExpenseRoute);
 
 app.listen(3000, () => {
     console.log("server is running!");
