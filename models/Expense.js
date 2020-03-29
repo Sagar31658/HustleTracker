@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
 
-const User = require('./User');
+const User = require("./User");
 
 const ExpenseSchema = mongoose.Schema({
     ExpenseType: {
@@ -19,8 +19,8 @@ const ExpenseSchema = mongoose.Schema({
     },
     admin: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User
+        ref: "User"
     }
 });
 
-module.exports = mongoose.model('Expense', ExpenseSchema);
+module.exports = mongoose.model("Expense", ExpenseSchema);

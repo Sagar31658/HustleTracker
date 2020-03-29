@@ -40,9 +40,13 @@
             <% const sum = total(); %>
 
             <% for(let i=0;i<Expenses.length;i++){ %>
+            <% const id = Expenses[i]._id; %>
+
             <div>
                 <%var dateString = format(Expenses[i].Date);%>
                 <h2><%= Expenses[i].ExpenseType %>:<%= Expenses[i].Amount %>&nbsp;&nbsp;<%= dateString%></h2>
+                <button><a href="/expense/editExpense/<%= id %>">Edit</a></button>
+                <button><a href="/expense/deleteExpense/<%= id %>">Delete</a></button>
             </div>
             <% } %>
             <h1>Total:<%= sum %></h1>

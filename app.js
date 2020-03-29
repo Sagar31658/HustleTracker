@@ -1,15 +1,15 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
-const credentials = require('./credentials/credentials');
+const credentials = require("./credentials/credentials");
 
-const UserRoute = require('./routes/UserRoute');
-const ExpenseRoute = require('./routes/ExpenseRoute');
+const UserRoute = require("./routes/UserRoute");
+const ExpenseRoute = require("./routes/ExpenseRoute");
 
-const isAuth = require('./controllers/isAuth');
+const isAuth = require("./controllers/isAuth");
 
 mongoose.Promise = global.Promise;
 
@@ -17,35 +17,43 @@ const app = express();
 
 app.set("view engine", "ejs");
 
-app.use(bodyparser.urlencoded({
-    extended: false
-}));
+app.use(
+    bodyparser.urlencoded({
+        extended: false
+    })
+);
 app.use(bodyparser.json());
 
-mongoose.connect(credentials.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-}).then(() => {
-    console.log('db is connected!')
-}).catch(err => {
-    console.log(err);
-});
+mongoose
+    .connect(credentials.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    })
+    .then(() => {
+        console.log("db is connected!");
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 const store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/HustleTracker',
-    collection: 'session'
+    uri: "mongodb://localhost:27017/HustleTracker",
+    collection: "session"
 });
 
-app.use(session({
-    secret: 'hey i am secret!',
-    resave: false,
-    saveUninitialized: false,
-    store: store
-}));
+app.use(
+    session({
+        secret: "hey i am secret!",
+        resave: false,
+        saveUninitialized: false,
+        store: store
+    })
+);
 
-app.use('/user', UserRoute);
-app.use('/expense', ExpenseRoute);
+app.use("/user", UserRoute);
+app.use("/expense", ExpenseRoute);
 
 app.listen(3000, () => {
     console.log("server is running!");
